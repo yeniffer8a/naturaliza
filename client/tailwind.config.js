@@ -28,6 +28,7 @@ export default {
         onSecondary: "#000000",
         background: "#FEFEFE",
         backgroundVariant: "#F4F4F4",
+        outline: "#A0A0A0",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
