@@ -6,24 +6,24 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="bg-background py-4 shadow-sm">
+    <header className="bg-background py-4 shadow-sm text-outline">
       <nav className="container-section">
         <div className="flex items-center justify-between">
           <Link to="/" className="text-2xl font-prosto text-primary">
             Naturaliza
           </Link>
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-8 ">
             <Link
               to="/products"
               className="hover:text-secondary transition-colors"
             >
-              Products
+              Productos
             </Link>
             <Link
               to="/appliances"
               className="hover:text-secondary transition-colors"
             >
-              Appliances
+              Accesorios
             </Link>
             <Link to="/blog" className="hover:text-secondary transition-colors">
               Blog
@@ -32,7 +32,7 @@ export function Header() {
               to="/touchUs"
               className="hover:text-secondary transition-colors"
             >
-              Touch us
+              Contacto
             </Link>
           </div>
           <button className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
