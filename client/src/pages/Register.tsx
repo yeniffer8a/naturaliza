@@ -138,6 +138,5 @@ const Register = () => {
       <Footer />
     </>
   );
-};
-
+}; 
 export default Register;
