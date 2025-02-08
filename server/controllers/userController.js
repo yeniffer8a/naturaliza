@@ -6,7 +6,7 @@ import {
   getUserBy,
   createNewUser,
   findUserByEmail,
-} from "../services/userServices.js";
+} from "../services/userService.js";
 
 async function createUser(req, res) {
   try {
