@@ -4,9 +4,9 @@ import {
   destroyProduct,
   getProductByCode,
   updateProduct,
+  getProductsByName,
 } from "../services/productsService.js";
 import { procdutValidation } from "../models/Product.js";
-import { supabase } from "../config/supaBase.js";
 import { z } from "zod";
 
 export async function listProducts(req, res) {
@@ -32,6 +32,20 @@ export async function oneProduct(req, res) {
   }
 }
 
+export async function productsByName(req, res) {
+  try {
+    const name = req.params.name;
+    const product = await getProductsByName(name);
+    if (typeof product === "string") {
+      return res.status(404).json({ message: product });
+    }
+    return res.status(200).json(product);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: error.message });
+  }
+}
+
 export async function createNewProduct(req, res) {
   try {
     let characteristics = JSON.parse(req.body.characteristics);
@@ -45,25 +59,9 @@ export async function createNewProduct(req, res) {
     reqData.preparationInstructions = preparationInstructions;
 
     const product = procdutValidation.parse(reqData);
-    const file = req.file;
-    console.log(req.file);
+    const imagen = req.file.supabaseUrl;
 
-    const { data, errors } = await supabase.storage
-      .from('imagens')
-      .upload(file.originalname, file);
-    console.log(data);
-
-    if (errors) {
-      return res.status(400).json({ message: errors });
-    }
-
-    const { data: image } = supabase.storage
-      .from('imagens')
-      .getPublicUrl(data.path);
-
-    console.log(image);
-
-    const newProduct = await createProduct(product, image);
+    const newProduct = await createProduct(product, imagen);
 
     if (typeof newProduct === "string") {
       return res.status(400).json({ message: newProduct });

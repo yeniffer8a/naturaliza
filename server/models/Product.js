@@ -18,7 +18,7 @@ export const procdutValidation = z.object({
   presentations: z.array(
     z.object({
       size: z.string().nonempty({message: "Tamaño no debe estar vacio"}),
-      price: z.number().positive({  message: "Precio debe ser un numero positivo"}),
+      price: z.number().nonnegative({message: "Precio debe ser un numero positivo o cero"}),
       stock: z.number().int().positive({  message: "Stock debe ser un numero positivo"}),
     })
   ),

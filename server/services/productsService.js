@@ -21,10 +21,26 @@ export async function getProductByCode(code) {
     }
 }
 
+export async function getProductsByName(name) {
+  try {
+    console.log(name);
+      const product = await Product.find({
+        name: { '$regex': `${name}`,'$options':'i'}, });
+      if (!product) {
+        return { message: `Product not found with code: ${code}`};
+      }
+      return product;
+}catch(error){
+  throw new Error(`Error getProductsByName: ${error.message}`);
+  }
+}
+
+
 export async function createProduct(product,imagen) {
-    const { name, description, characteristics, ingredients, presentations, preparationInstructions} = product;
+    const { code, name, description, characteristics, ingredients, presentations, preparationInstructions} = product;
   try {
     const newProduct = await Product.create({
+      code: code,
       name: name,
       description:
       description,
