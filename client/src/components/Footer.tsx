@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 export function Footer() {
   return (
     <footer className="bg-backgroundVariant text-primary py-12">
-      <div className="container-section grid grid-cols-1 md:grid-cols-3  gap-8">
+      <div className="container-section grid grid-cols-2 md:grid-cols-4  gap-8">
         <div>
           <h3 className="font-bold text-lg mb-4">PRODUCTOS</h3>
           <ul className="space-y-2">
@@ -62,10 +62,13 @@ export function Footer() {
             <li>
               <Link to="/about-tea">Sobre té</Link>
             </li>
-            <li>
-              <Link to="/client-service">Servicio al cliente</Link>
-            </li>
-            <li>
+          </ul>
+        </div>
+
+        <div>
+        <h3 className="font-bold text-lg mb-4">SERVICIO AL CLIENTE</h3>
+        <ul className="space-y-2"> 
+           <li>
               <Link to="/order-payment">Pedido y pago</Link>
             </li>
             <li>
@@ -81,6 +84,7 @@ export function Footer() {
         </div>
 
         <div>
+
           <h3 className="font-bold text-lg mb-4">CONTÁCTANOS</h3>
           <p>Jr. de la unión 565</p>
           <p>Email: natualiza@gmail.com</p>
