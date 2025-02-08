@@ -34,12 +34,23 @@ export async function oneProduct(req, res) {
 
 export async function createNewProduct(req, res) {
   try {
-    const product = procdutValidation.parse(req.body);
+    let characteristics = JSON.parse(req.body.characteristics);
+    let presentations = JSON.parse(req.body.presentations);
+    let preparationInstructions = JSON.parse(req.body.preparationInstructions);
+
+    const reqData = req.body;
+    
+    reqData.characteristics = characteristics;
+    reqData.presentations = presentations;
+    reqData.preparationInstructions = preparationInstructions;
+
+    const product = procdutValidation.parse(reqData);
     const file = req.file;
+    console.log(req.file);
 
     const { data, errors } = await supabase.storage
-      .from("imagens")
-      .upload(file.originalname, file.buffer);
+      .from('imagens')
+      .upload(file.originalname, file);
     console.log(data);
 
     if (errors) {
@@ -47,7 +58,7 @@ export async function createNewProduct(req, res) {
     }
 
     const { data: image } = supabase.storage
-      .from("imagens")
+      .from('imagens')
       .getPublicUrl(data.path);
 
     console.log(image);
