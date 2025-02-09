@@ -16,7 +16,7 @@
 
 @layer base {
   body {
-    @apply bg-background text-foreground font-montserrat;
+    @apply bg-background text-primary font-montserrat box-border;
   }
 }
 
@@ -30,6 +30,6 @@
   }
 
   .container-section {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+    @apply lg:max-w-7xl  md:max-w-2xl mx-auto px-4 sm:px-1 md:px-8;
   }
 }

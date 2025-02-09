@@ -1,5 +1,5 @@
 import { Header } from "../components/Header.tsx";
-import { Footer } from "../components/Footer.tsx";
+//import { Footer } from "../components/Footer.tsx";
 import { Main } from "../components/Main.tsx";
 
 export function Home() {
@@ -7,7 +7,7 @@ export function Home() {
     <>
       <Header />
       <Main />
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }
