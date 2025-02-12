@@ -16,7 +16,6 @@ async function findUserByEmail(email) {
       email: email.toLowerCase(),
       deletedAt: { $eq: null },
     });
-    console.log("User-->", user);
     return user;
   } catch (error) {
     throw new Error(`Error finding user by email: ${error.message}`);
