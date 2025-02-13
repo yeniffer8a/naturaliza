@@ -1,7 +1,7 @@
 import {
   getProducts,
   createProduct,
-  destroyProductByCode,
+  destroyProduct,
   getProductByCode,
   updateProduct,
   getProductsByName,
@@ -123,17 +123,16 @@ export async function updateProductData(req, res) {
   }
 }
 
-export async function deleteProduct(req, res) {
+export async function deleteProductByCode(req, res) {
   try {
     const code = req.params.code;
     const product = await getProductByCode(code);
     if (typeof product === "string") {
       return res.status(404).json({ ok: false, message: product });
     }
-    const destroyProduct = await destroyProductByCode(code);
+    const destroyProduct = await destroyProduct(product);
     return res.status(200).json({ ok: true, message: "Product deleted" });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ ok: false, message: error.message });
   }
 }
