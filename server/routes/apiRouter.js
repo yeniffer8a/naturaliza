@@ -1,5 +1,5 @@
 import express from "express";
-
+import productRouter from "./productRouter.js";
 import userRoutes from "./userRoutes.js";
 import authRoutes from "./authRoutes.js";
 
