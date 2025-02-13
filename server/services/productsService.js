@@ -74,16 +74,13 @@ export async function updateProduct(product,updateData,image) {
   }
 }
 
-export async function destroyProductByCode(code) {
+export async function destroyProduct(product) {
   try {
-    const product = await Product.findOne({ code: code });
-    if (product !== null) {
+   
       product.deletedAt = Date.now();
       await product.save();
-      return {message:`Product with code: ${code} deleted`};
-    } else{
-      return `Product not found with code: ${code}` ;
-    }
+      return {message:`Product with code: ${product.code} deleted`};
+
   } catch (error) {
     throw new Error(`Error destroyProduct: ${error.message}`);
   }

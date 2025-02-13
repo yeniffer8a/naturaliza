@@ -1,5 +1,5 @@
 import express from "express";
-import { listProducts,oneProduct,createNewProduct,productsByName,deleteProduct,updateProductData } from "../controllers/productsController.js";
+import { listProducts,oneProduct,createNewProduct,productsByName,deleteProductByCode,updateProductData } from "../controllers/productsController.js";
 import { upload } from '../config/multerConfig.js';
 import { uploadSupabase } from '../middleware/uploadSupabase.js';
 import { tokenValidator } from "../middleware/tokenValidator.js";
@@ -17,6 +17,6 @@ router.post("/createProduct", tokenValidator, expressjwt({secret:process.env.JWT
 
 router.patch("/updateProduct/",tokenValidator, expressjwt({secret:process.env.JWT_SECRET, algorithms:["HS256"]}),rolUserValidator,upload.single('file'),uploadSupabase,updateProductData);
 
-router.delete("/deleteProduct/:code", tokenValidator, expressjwt({secret:process.env.JWT_SECRET, algorithms:["HS256"]}),rolUserValidator,deleteProduct);
+router.delete("/deleteProduct/:code", tokenValidator, expressjwt({secret:process.env.JWT_SECRET, algorithms:["HS256"]}),rolUserValidator,deleteProductByCode);
 
 export default router;
