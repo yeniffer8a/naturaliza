@@ -2,7 +2,7 @@ import Product from "../models/Product.js";
 
 export async function getProducts() {
   try {
-    const products = await Product.find();
+    const products = await Product.find({deletedAt: { $eq: null }});
     return products;
   } catch (error) {
     throw new Error(`Error getProducts: ${error.message}`);
@@ -13,7 +13,7 @@ export async function getProductByCode(code) {
     try {
         const product = await Product.findOne({ code: code });
         if (!product) {
-          return { message: `Product not found with code: ${code}`};
+          return `Product not found with code: ${code}`;
         }
         return product;
 }catch(error){
@@ -23,11 +23,11 @@ export async function getProductByCode(code) {
 
 export async function getProductsByName(name) {
   try {
-    console.log(name);
       const product = await Product.find({
-        name: { '$regex': `${name}`,'$options':'i'}, });
-      if (!product) {
-        return { message: `Product not found with code: ${code}`};
+        name: { '$regex': `${name}`,'$options':'i'}, deletedAt: { $eq: null }});
+
+      if (product === undefined || product.length == 0) {
+       return (`Product not found with word: ${name}`);
       }
       return product;
 }catch(error){
@@ -36,7 +36,7 @@ export async function getProductsByName(name) {
 }
 
 
-export async function createProduct(product,imagen) {
+export async function createProduct(product,image) {
     const { code, name, description, characteristics, ingredients, presentations, preparationInstructions} = product;
   try {
     const newProduct = await Product.create({
@@ -44,7 +44,7 @@ export async function createProduct(product,imagen) {
       name: name,
       description:
       description,
-      imagen: imagen,
+      image: image,
       characteristics: characteristics,
       ingredients: ingredients,
       presentations: presentations,
@@ -57,29 +57,30 @@ export async function createProduct(product,imagen) {
   }
 }
 
-export async function updateProduct(product,updateData) {
+export async function updateProduct(product,updateData,image) {
   try {
-    const { name, description, imagen, characteristics, ingredients, presentations, preparationInstructions} = updateData;
+    const { name, description, image, characteristics, ingredients, presentations, preparationInstructions} = updateData;
     product.name = name || product.name;
     product.description = description || product.description;
-    product.imagen = imagen || product.imagen;
+    product.image = image || product.image;
     product.characteristics = characteristics || product.characteristics;
     product.ingredients = ingredients || product.ingredients;
     product.presentations = presentations || product.presentations;
     product.preparationInstructions = preparationInstructions || product.preparationInstructions;
     await product.save();
-    return product;
+    return {message:`Product with code: ${product.code} updated`};
   } catch (error) {
     throw new Error(`Error updateProduct: ${error.message}`);
   }
 }
 
-export async function destroyProduct(code) {
+export async function destroyProduct(product) {
   try {
-    const product = await Product.findOneAndDelete({ code: code });
-    if (!product) {
-      return { message: `Product not found with code: ${code}`};
-    }
+   
+      product.deletedAt = Date.now();
+      await product.save();
+      return {message:`Product with code: ${product.code} deleted`};
+
   } catch (error) {
     throw new Error(`Error destroyProduct: ${error.message}`);
   }
