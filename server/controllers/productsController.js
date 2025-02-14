@@ -12,9 +12,9 @@ import { z } from "zod";
 export async function listProducts(req, res) {
   try {
     const products = await getProducts();
-    return res.status(200).json(products);
+    return res.status(200).json({ok: true, products});
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ok: false, message: error.message });
   }
 }
 
@@ -23,12 +23,12 @@ export async function oneProduct(req, res) {
     const code = req.params.code;
     const product = await getProductByCode(code);
     if (typeof product === "string") {
-      return res.status(404).json({ message: product });
+      return res.status(404).json({ok:false, message: product });
     }
-    return res.status(200).json(product);
+    return res.status(200).json({ok:true,product});
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: error.message });
+    return res.status(500).json({ ok: false, message: error.message });
   }
 }
 
