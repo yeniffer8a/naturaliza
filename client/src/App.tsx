@@ -3,18 +3,24 @@ import { Home } from "./pages/HomePage.tsx";
 import { Toaster } from "react-hot-toast";
 import Register from "./pages/Register.tsx";
 import { Login } from "./pages/LoginPage.tsx";
+import { ProductsPage } from "./pages/ProductList.tsx";
+import { Header } from "./components/Header.tsx";
+import { Footer } from "./components/Footer.tsx";
 
 function App() {
   return (
     <Router>
       <Toaster position="top-right" />
+      <Header />
+
       <Routes>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Home />} />
-
-        {/* Add more routes as needed */}
+        <Route path="/products" element={<ProductsPage />} />
+        {/* <Route path="/products/:code" element={<ProductDetailPage />} /> */}
       </Routes>
+      <Footer />
     </Router>
   );
 }
