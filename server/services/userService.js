@@ -2,7 +2,10 @@ import { User } from "../models/User.js";
 
 async function getUserBy(userId) {
   try {
+    console.log("GetUserID")
     const user = await User.findOne({ _id: userId, deletedAt: { $eq: null } });
+    console.log(1245)
+    console.log(user)
     return user;
   } catch (error) {
     throw new Error("Error al obtener el usuario: ", error);
