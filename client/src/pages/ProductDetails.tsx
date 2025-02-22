@@ -115,12 +115,12 @@ export function ProductDetail() {
       </div>
 
       <div className="mt-16 grid md:grid-cols-2 gap-12">
-        {/* <PreparationInstructions
-            portion={product?.preparationInstructions.recommendedPortion}
-            temperature={product?.preparationInstructions.waterTemperature}
-            time={product?.preparationInstructions.infusionTime}
-            note="Se intensifica después de 3 minutos"
-          /> */}
+        <PreparationInstructions
+          portion={product?.preparationInstructions.recommendedPortion}
+          temperature={product?.preparationInstructions.waterTemperature}
+          time={product?.preparationInstructions.infusionTime}
+          intensificationNote="Se intensifica después de 3 minutos"
+        />
 
         <ProductTabs tabs={characteristics} />
       </div>
