@@ -23,7 +23,7 @@ export function Button({
 
   if (href) {
     return (
-      <Link to={href} className="{combinedClasName}">
+      <Link to={href} className={combinedClassName}>
         {children}
       </Link>
     );
