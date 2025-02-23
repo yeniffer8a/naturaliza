@@ -15,52 +15,7 @@ export function Login() {
   });
   // const [isLoading, setIsLoading] = useState(false);
   const [login, { isLoading }] = useLoginMutation();
-  //const [setError] = useState<string | null>(null);
 
-  // const handleSubmit = async (e: FormEvent) => {
-  //   e.preventDefault();
-  //   //setIsLoading(true);
-
-  //   try {
-  //     const response = await fetch(
-  //       `${import.meta.env.VITE_API_URL}/api/token`,
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({
-  //           email: formData.email,
-  //           password: formData.password,
-  //         }),
-  //       }
-  //     );
-
-  //     const data = (await response.json()) as LoginResponse | ApiError;
-
-  //     if (!response.ok) {
-  //       throw new Error(
-  //         (data as ApiError).message || "Error al iniciar sesión"
-  //       );
-  //     }
-
-  //     const { token } = data as LoginResponse;
-  //     sessionStorage.setItem("token", token);
-
-  //     if (formData.remember) {
-  //       localStorage.setItem("userEmail", formData.email);
-  //     }
-
-  //     toast.success("Inicio de sesión exitoso");
-  //     navigate("/");
-  //   } catch (err) {
-  //     toast.error(
-  //       err instanceof Error ? err.message : "Error al iniciar sesión"
-  //     );
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -154,6 +109,14 @@ export function Login() {
                 "INICIAR SESIÓN"
               )}
             </ButtonLogin>
+                        <div className="text-center">
+              <a
+                href="/register"
+                className="text-sm text-gray  hover:underline"
+              >
+                Registrarme
+              </a>
+            </div>
           </form>
         </div>
       </div>
