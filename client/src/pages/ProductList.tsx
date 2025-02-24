@@ -19,7 +19,7 @@ export function ProductsPage() {
   const { data: products, isLoading } = useGetProductsQuery();
   const breadcrumbItems = [
     { label: "INICIO", href: "/" },
-    { label: "PRODUCTOS", href: "/productos" },
+    { label: "PRODUCTOS", href: "/products" },
   ];
 
   const handleFilterChange = (
@@ -62,20 +62,23 @@ export function ProductsPage() {
     return true;
   });
 
-  const sortedProducts = [...(filteredProducts || [])].sort((a, b) => {
-    switch (sortBy) {
-      case "price-asc":
-        return a.presentations[0].price - b.presentations[0].price;
-      case "price-desc":
-        return b.presentations[0].price - a.presentations[0].price;
-      case "name-asc":
-        return a.name.localeCompare(b.name);
-      case "name-desc":
-        return b.name.localeCompare(a.name);
-      default:
-        return 0;
-    }
-  });
+  const sortedProducts =
+    [...(filteredProducts || [])]
+      .sort((a, b) => {
+        switch (sortBy) {
+          case "price-asc":
+            return a.presentations[0].price - b.presentations[0].price;
+          case "price-desc":
+            return b.presentations[0].price - a.presentations[0].price;
+          case "name-asc":
+            return a.name.localeCompare(b.name);
+          case "name-desc":
+            return b.name.localeCompare(a.name);
+          default:
+            return 0;
+        }
+      })
+      .slice(0, 9) || [];
 
   return (
     <div className="bg-background">
@@ -88,29 +91,14 @@ export function ProductsPage() {
         />
       </div>
 
+      {/*Breadcrumb */}
       <div className="container-section py-8">
         <Breadcrumb items={breadcrumbItems} />
       </div>
 
-      {/**Sort by */}
-      <div className="mr-0 mb-6">
-        <select
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value)}
-          className="rounded-md border-gray-300 py-2 pl-3 pr-10 text-sm focus:border-primary focus:outline-none focus:ring-primary"
-        >
-          <option value="">Ordenar por</option>
-          {sortOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-      </div>
-      {/* Product grid */}
-      <div className=" grid grid-cols-4">
+      <div className="flex justify-around">
         {/* Filters */}
-        <div className="mt-8 ml-3 grid grid-cols-1 gap-x-8 gap-y-10 ">
+        <div className="flex flex-col space-y-10">
           <FilterSection title="TIPOS" defaultExpanded>
             <div className="space-y-2">
               {[
@@ -229,7 +217,7 @@ export function ProductsPage() {
           </FilterSection>
 
           <div className="py-4">
-            <label className="">
+            <label className="flex items-center">
               <span className="font-medium mr-4 ml-1">ORGÁNICO</span>
               <button
                 onClick={() =>
@@ -247,17 +235,34 @@ export function ProductsPage() {
               </button>
             </label>
           </div>
-        </div>
+
+        {/* Product grid */}
+        <div className="">
+          {/**Sort by */}
+          <div className="mr-0 mb-8 text-right">
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="rounded-md border-gray-300 py-2 pl-3 pr-10 text-sm focus:border-primary focus:outline-none focus:ring-primary"
+            >
+              <option value="">Ordenar por</option>
+              {sortOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
 
         {isLoading ? (
           <div>Cargando productos...</div>
         ) : (
-          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3 w-full">
             {sortedProducts.map((product) => (
               <ProductCard key={product.code} product={product} />
             ))}
+
           </div>
-        )}
+
       </div>
     </div>
   );
