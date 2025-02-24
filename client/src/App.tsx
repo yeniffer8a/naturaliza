@@ -1,11 +1,13 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Home } from "./pages/HomePage.tsx";
 import { Toaster } from "react-hot-toast";
-import Register from "./pages/Register.tsx";
+import { Register } from "./pages/Register.tsx";
 import { Login } from "./pages/LoginPage.tsx";
 import { ProductsPage } from "./pages/ProductList.tsx";
+
 import { Header } from "./components/Header.tsx";
 import { Footer } from "./components/Footer.tsx";
+//import { ProductDetail } from "./pages/ProductDetails.tsx";
 
 function App() {
   return (
@@ -18,7 +20,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<ProductsPage />} />
-        {/* <Route path="/products/:code" element={<ProductDetailPage />} /> */}
+        {/* <Route path="/products/:code" element={<ProductDetail />} /> */}
       </Routes>
       <Footer />
     </Router>
