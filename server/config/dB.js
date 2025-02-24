@@ -8,7 +8,7 @@ async function connectDB() {
         await mongoose.connect(mongoUrl)
         console.log('database connected')
     } catch (error){
-        throw new Error (`Error connect the Data Base: ${error.messaga}`)
+        throw new Error (`Error connect the Data Base: ${error.message}`)
     }
 }
 
