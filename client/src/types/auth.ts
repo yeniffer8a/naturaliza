@@ -13,6 +13,18 @@ export interface LoginResponse {
   token: string;
 }
 
+export interface RegisterFormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  address: string;
+  country: string;
+  city: string;
+  postCode: string;
+  password: string;
+  confirmPassword: string;
+}
+
 export interface ApiError {
   message: string;
 }

@@ -19,7 +19,7 @@ export function ProductsPage() {
   const { data: products, isLoading } = useGetProductsQuery();
   const breadcrumbItems = [
     { label: "INICIO", href: "/" },
-    { label: "PRODUCTOS", href: "/productos" },
+    { label: "PRODUCTOS", href: "/products" },
   ];
 
   const handleFilterChange = (
@@ -235,7 +235,7 @@ export function ProductsPage() {
               </button>
             </label>
           </div>
-        </div>
+
         {/* Product grid */}
         <div className="">
           {/**Sort by */}
@@ -252,17 +252,17 @@ export function ProductsPage() {
                 </option>
               ))}
             </select>
+
+        {isLoading ? (
+          <div>Cargando productos...</div>
+        ) : (
+          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3 w-full">
+            {sortedProducts.map((product) => (
+              <ProductCard key={product.code} product={product} />
+            ))}
+
           </div>
-          {isLoading ? (
-            <div>Cargando productos...</div>
-          ) : (
-            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-              {sortedProducts.map((product) => (
-                <ProductCard key={product.code} product={product} />
-              ))}
-            </div>
-          )}
-        </div>
+
       </div>
     </div>
   );

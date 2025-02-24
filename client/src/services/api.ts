@@ -25,7 +25,11 @@ import {
   fetchBaseQuery,
   FetchBaseQueryError,
 } from "@reduxjs/toolkit/query/react";
-import type { LoginRequest, LoginResponse } from "../types/auth";
+import type {
+  LoginRequest,
+  LoginResponse,
+  RegisterFormData,
+} from "../types/auth";
 import type { Product, ProductFilters } from "../types/product";
 
 // interface ApiResponse<T> {
@@ -60,6 +64,7 @@ export const api = createApi({
     },
   }),
   tagTypes: ["Product"], // Para invalidación de caché
+
   endpoints: (builder) => ({
     login: builder.mutation<LoginResponse, LoginRequest>({
       query: (credentials) => ({
@@ -74,6 +79,14 @@ export const api = createApi({
           message: "Error de autenticación",
         };
       },
+    }),
+
+    register: builder.mutation<{ message: string }, RegisterFormData>({
+      query: (userData) => ({
+        url: "api/users",
+        method: "POST",
+        body: userData,
+      }),
     }),
 
     getProducts: builder.query<Product[], void>({
@@ -157,10 +170,11 @@ export const api = createApi({
 });
 
 export const {
+  useLoginMutation,
+  useRegisterMutation,
   useGetProductsQuery,
   useGetProductByCodeQuery,
   useGetProductsByFiltersQuery,
-  useLoginMutation,
   useCreateProductMutation,
   useUpdateProductMutation,
   useDeleteProductMutation,
