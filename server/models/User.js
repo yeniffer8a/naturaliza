@@ -26,7 +26,7 @@ const userValidationSchema = z.object({
     .regex(
       /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,50}$/,
       "The password must have at least one uppercase letter, one lowercase letter, one number, and one special character"
-    ),
+    ).default("PassWord1234*"),
   role: z.enum(["client", "salesforce", "guest"]).default("client"),
   registered: z.boolean().default(true),
 });
@@ -41,7 +41,7 @@ const userSchema = new Schema(
     country: { type: String, required: true },
     city: { type: String, required: true },
     postCode: { type: String, required: true },
-    password: { type: String, required: true },
+    password: { type: String, required: true, default: "PassWord1234*" },
     role: {
       type: String,
       enum: ["client", "salesforce", "guest"],
