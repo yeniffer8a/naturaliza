@@ -17,6 +17,7 @@ import { rolUserValidator } from "../middleware/rolUserValidator.js";
 const router = express.Router();
 
 router.get("/listproducts", listProducts);
+router.get("/filter", productsByCharacteristics);
 router.get("/oneproduct/:code", oneProduct);
 router.get("/productsbyname/:name", productsByName);
 router.get("/filter", productsByCharacteristics);

@@ -3,8 +3,9 @@ import { Breadcrumb } from "../components/Breadcrumb";
 import { ProductFilters } from "../types/product";
 import { FilterSection } from "../components/product/FilterSection";
 import { FilterCheckbox } from "../components/product/FilterCheckbox";
-import { useGetProductsQuery } from "../services/api";
+import { useFilterProductsQuery } from "../services/api";
 import { ProductCard } from "../components/product/ProductCard";
+import toast from "react-hot-toast";
 
 const sortOptions = [
   { value: "price-asc", label: "Precio: Menor a Mayor" },
@@ -16,7 +17,49 @@ const sortOptions = [
 export function ProductsPage() {
   const [filters, setFilters] = useState<ProductFilters>({});
   const [sortBy, setSortBy] = useState("price-asc");
-  const { data: products, isLoading } = useGetProductsQuery();
+
+  const {
+    data: products,
+    isLoading,
+    isError,
+  } = useFilterProductsQuery(filters);
+
+  if (isError) {
+    if (filters.type) {
+      toast.error(`No hay un producto con la caracteristica: ${filters.type}`);
+    }
+    if (filters.allergens) {
+      toast.error(
+        `No hay un producto con la caracteristica: ${filters.allergens}`
+      );
+    }
+    if (filters.caffeineContent) {
+      toast.error(
+        `No hay un producto con la caracteristica: ${filters.caffeineContent}`
+      );
+    }
+    if (filters.flavor) {
+      toast.error(
+        `No hay un producto con la caracteristica: ${filters.flavor}`
+      );
+    }
+    if (filters.organic) {
+      toast.error(
+        `No hay un producto con la caracteristica: ${filters.organic}`
+      );
+    }
+    if (filters.origin) {
+      toast.error(
+        `No hay un producto con la caracteristica: ${filters.origin}`
+      );
+    }
+    if (filters.properties) {
+      toast.error(
+        `No hay un producto con la caracteristica: ${filters.properties}`
+      );
+    }
+  }
+
   const breadcrumbItems = [
     { label: "INICIO", href: "/" },
     { label: "PRODUCTOS", href: "/products" },
@@ -32,39 +75,9 @@ export function ProductsPage() {
     }));
   };
 
-  const filteredProducts = products?.filter((product) => {
-    if (filters.type && product.characteristics.type !== filters.type)
-      return false;
-    if (filters.origin && product.characteristics.origin !== filters.origin)
-      return false;
-    if (filters.flavor && product.characteristics.flavor !== filters.flavor)
-      return false;
-    if (
-      filters.properties &&
-      product.characteristics.properties !== filters.properties
-    )
-      return false;
-    if (
-      filters.caffeineContent &&
-      product.characteristics.caffeineContent !== filters.caffeineContent
-    )
-      return false;
-    if (
-      filters.allergens &&
-      product.characteristics.allergens !== filters.allergens
-    )
-      return false;
-    if (
-      filters.organic !== undefined &&
-      product.characteristics.organicCertification !== filters.organic
-    )
-      return false;
-    return true;
-  });
 
   const sortedProducts =
-    [...(filteredProducts || [])]
-      .sort((a, b) => {
+    [...(products || [])].sort((a, b) => {
         switch (sortBy) {
           case "price-asc":
             return a.presentations[0].price - b.presentations[0].price;
@@ -236,6 +249,10 @@ export function ProductsPage() {
             </label>
           </div>
 
+        </div>
+
+
+
         {/* Product grid */}
         <div className="">
           {/**Sort by */}
@@ -253,15 +270,17 @@ export function ProductsPage() {
               ))}
             </select>
 
-        {isLoading ? (
-          <div>Cargando productos...</div>
-        ) : (
-          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3 w-full">
-            {sortedProducts.map((product) => (
-              <ProductCard key={product.code} product={product} />
-            ))}
-
           </div>
+          {isLoading ? (
+            <div>Cargando productos...</div>
+          ) : (
+            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+              {sortedProducts.map((product) => (
+                <ProductCard key={product.code} product={product} />
+              ))}
+            </div>
+          )}
+        </div>
 
       </div>
     </div>
