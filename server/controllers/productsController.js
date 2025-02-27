@@ -5,6 +5,7 @@ import {
   getProductByCode,
   updateProduct,
   getProductsByName,
+  getProductsByCharacteristics,
 } from "../services/productsService.js";
 import { procdutValidation } from "../models/Product.js";
 import { z } from "zod";
@@ -12,9 +13,9 @@ import { z } from "zod";
 export async function listProducts(req, res) {
   try {
     const products = await getProducts();
-    return res.status(200).json({ok: true, products});
+    return res.status(200).json({ ok: true, products });
   } catch (error) {
-    res.status(500).json({ok: false, message: error.message });
+    res.status(500).json({ ok: false, message: error.message });
   }
 }
 
@@ -23,9 +24,9 @@ export async function oneProduct(req, res) {
     const code = req.params.code;
     const product = await getProductByCode(code);
     if (typeof product === "string") {
-      return res.status(404).json({ok:false, message: product });
+      return res.status(404).json({ ok: false, message: product });
     }
-    return res.status(200).json({ok:true,product});
+    return res.status(200).json({ ok: true, product });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ ok: false, message: error.message });
@@ -133,6 +134,59 @@ export async function deleteProductByCode(req, res) {
     const destroyProduct = await destroyProduct(product);
     return res.status(200).json({ ok: true, message: "Product deleted" });
   } catch (error) {
+    return res.status(500).json({ ok: false, message: error.message });
+  }
+}
+
+export async function productsByCharacteristics(req, res) {
+  try {
+    const {
+      origin,
+      type,
+      flavor,
+      properties,
+      caffeineContent,
+      allergens,
+      organicCertification,
+    } = req.query;
+
+    // Verificar que al menos uno de los parámetros sea proporcionado
+
+    // if (
+    //   !origin &&
+    //   !type &&
+    //   !flavor &&
+    //   !properties &&
+    //   !caffeineContent &&
+    //   !allergens &&
+    //   organicCertification === undefined
+    // ) {
+    //   return res.status(400).json({
+    //     ok: false,
+    //     message: "Debe proporcionar al menos una característica.",
+    //   });
+    // }
+
+    const products = await getProductsByCharacteristics({
+      origin,
+      type,
+      flavor,
+      properties,
+      caffeineContent,
+      allergens,
+      organicCertification,
+    });
+
+    if (products.length === 0) {
+      return res.status(404).json({
+        ok: false,
+        message: "No se encontraron productos con esas características.",
+      });
+    }
+
+    return res.status(200).json({ ok: true, products });
+  } catch (error) {
+    console.log(error);
     return res.status(500).json({ ok: false, message: error.message });
   }
 }

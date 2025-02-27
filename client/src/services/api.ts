@@ -27,6 +27,7 @@ import {
 } from "@reduxjs/toolkit/query/react";
 import type { LoginRequest, LoginResponse } from "../types/auth";
 import type { Product, ProductFilters } from "../types/product";
+import toast from "react-hot-toast";
 
 // interface ApiResponse<T> {
 //   ok: boolean;
@@ -91,6 +92,26 @@ export const api = createApi({
       providesTags: ["Product"],
     }),
 
+    filterProducts: builder.query<Product[], ProductFilters>({
+      query: (filters) => ({
+        url: "/products/filter",
+        method: "GET",
+        params: filters, // Aquí pasamos los filtros como parámetros
+      }),
+      transformResponse: (response: ProductsResponse) => {
+        if (response.ok) {
+          toast.success("Productos filtrados con éxito.");
+          return response.products;
+        } else {
+          return [];
+        }
+      },
+      transformErrorResponse: () => {
+        return [];
+      },
+      providesTags: ["Product"],
+    }),
+
     getProductByCode: builder.query<Product, string>({
       query: (code) => ({
         url: `/products/oneproduct/${code}`,
@@ -140,10 +161,10 @@ export const api = createApi({
         method: "PATCH",
         body: { code, ...product },
       }),
-      invalidatesTags: (result, error, { code }) => [
-        { type: "Product", id: code },
-        "Product",
-      ],
+      // invalidatesTags: (result, error, { code }) => [
+      //   { type: "Product", id: code },
+      //   "Product",
+      // ],
     }),
 
     deleteProduct: builder.mutation<void, string>({
@@ -158,6 +179,7 @@ export const api = createApi({
 
 export const {
   useGetProductsQuery,
+  useFilterProductsQuery,
   useGetProductByCodeQuery,
   useGetProductsByFiltersQuery,
   useLoginMutation,
