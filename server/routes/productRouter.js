@@ -20,6 +20,7 @@ router.get("/listproducts", listProducts);
 router.get("/filter", productsByCharacteristics);
 router.get("/oneproduct/:code", oneProduct);
 router.get("/productsbyname/:name", productsByName);
+router.get("/filter", productsByCharacteristics);
 
 router.post(
   "/createProduct",

@@ -62,7 +62,7 @@ export function ProductsPage() {
 
   const breadcrumbItems = [
     { label: "INICIO", href: "/" },
-    { label: "PRODUCTOS", href: "/productos" },
+    { label: "PRODUCTOS", href: "/products" },
   ];
 
   const handleFilterChange = (
@@ -75,9 +75,9 @@ export function ProductsPage() {
     }));
   };
 
+
   const sortedProducts =
-    [...(products || [])]
-      .sort((a, b) => {
+    [...(products || [])].sort((a, b) => {
         switch (sortBy) {
           case "price-asc":
             return a.presentations[0].price - b.presentations[0].price;
@@ -248,7 +248,11 @@ export function ProductsPage() {
               </button>
             </label>
           </div>
+
         </div>
+
+
+
         {/* Product grid */}
         <div className="">
           {/**Sort by */}
@@ -265,6 +269,7 @@ export function ProductsPage() {
                 </option>
               ))}
             </select>
+
           </div>
           {isLoading ? (
             <div>Cargando productos...</div>
@@ -276,6 +281,7 @@ export function ProductsPage() {
             </div>
           )}
         </div>
+
       </div>
     </div>
   );

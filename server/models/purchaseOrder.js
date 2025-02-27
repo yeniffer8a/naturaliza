@@ -2,9 +2,8 @@ import { model, Schema, Types } from "mongoose";
 import { z } from "zod";
 
 export const purchaseOrderValidator = z.object({
-  ordenNumber: z.number().nonnegative(),
+  orderNumber: z.number().nonnegative(),
   user: z.object({
-    idUser: z.instanceof("ObjectId").default(null),
     firstName: z
       .string()
       .min(1, "The first name must have at least 1 character")
@@ -22,16 +21,17 @@ export const purchaseOrderValidator = z.object({
     city: z.string().min(1).max(50),
     postCode: z.string().min(1).max(50),
   }),
+  sameAddress: z.boolean(),
   products: z.array(
     z.object({
-      product: z.instanceof("ObjectId"),
+      product: z.string(),
       quantity: z
         .number()
         .nonnegative({ message: "the quantity must be greater than zero" }),
     })
   ),
   billingAddress: z.object({
-    sameAddress: z.boolean,
+    
     address: z
       .string()
       .min(1, "The address must have at least 1 character")
@@ -51,16 +51,14 @@ export const purchaseOrderValidator = z.object({
   paymentInfo: z.object({
     paymentMethod: z.string(),
     paymentStatus: z.string(),
-    paymentDate: z.date(),
+    paymentDate: z.string(),
     paymentMethodNumber: z.number(),
-    approvalNumber: z.number(),
   }),
-  deliveryTime: z.date(),
 });
 
 const purchaseOrderSchema = Schema(
   {
-    ordenNumber: {
+    orderNumber: {
       type: Number,
       required: true,
       unique: true,
@@ -113,11 +111,11 @@ const purchaseOrderSchema = Schema(
         },
       },
     ],
+    sameAddress: {
+      type: Boolean,
+      required: true,
+    },
     billingAddress: {
-      sameAddress: {
-        type: Boolean,
-        required: true,
-      },
       address: {
         type: String,
         required: true,

@@ -47,6 +47,58 @@ export async function productsByName(req, res) {
   }
 }
 
+export async function productsByCharacteristics(req, res) {
+  try {
+    const {
+      origin,
+      type,
+      flavor,
+      properties,
+      caffeineContent,
+      allergens,
+      organicCertification,
+    } = req.query;
+
+    // Verificar que al menos uno de los parámetros sea proporcionado
+    if (
+      !origin &&
+      !type &&
+      !flavor &&
+      !properties &&
+      !caffeineContent &&
+      !allergens &&
+      organicCertification === undefined
+    ) {
+      return res.status(400).json({
+        ok: false,
+        message: "Debe proporcionar al menos una característica.",
+      });
+    }
+
+    const products = await getProductsByCharacteristics({
+      origin,
+      type,
+      flavor,
+      properties,
+      caffeineContent,
+      allergens,
+      organicCertification,
+    });
+
+    if (products.length === 0) {
+      return res.status(404).json({
+        ok: false,
+        message: "No se encontraron productos con esas características.",
+      });
+    }
+
+    return res.status(200).json({ ok: true, products });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ ok: false, message: error.message });
+  }
+}
+
 export async function createNewProduct(req, res) {
   try {
     const valProduct = await getProductByCode(req.body.code);
