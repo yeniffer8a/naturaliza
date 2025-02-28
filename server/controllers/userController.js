@@ -40,7 +40,7 @@ async function createUser(req, res) {
       if (password !== confirmPassword) {
         console.log(password, confirmPassword);
         return res
-          .status(400)
+          .status(422)
           .json({ ok: false, message: "Passwords do not match" });
       }
     }
@@ -48,7 +48,7 @@ async function createUser(req, res) {
     console.log(existingUser);
     if (!existingUser) {
       await createNewUser({ ...userData });
-      return res.status(201).json({ ok: true, message: "User created" });
+      return res.status(200).json({ ok: true, message: "User created" });
     }
     if (existingUser && existingUser.deletedAt === null) {
       return res
@@ -126,9 +126,6 @@ async function updateUser(req, res) {
     const userData = req.body;
 
     const updatedUser = await updateNewUser(user, userData);
-    if (typeof updatedUser === "string") {
-      return res.status(400).json({ ok: false, message: updatedUser });
-    }
 
     return res.status(200).json({ ok: true, updatedUser });
   } catch (error) {
