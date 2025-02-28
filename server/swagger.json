@@ -1,0 +1,1180 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Naturaliza Api",
+    "description": "this is api for a Ecommerse, that products are diferents types of mixed of teas",
+    "contact": {
+      "name": "Luis Lozano"
+    },
+    "version": "1.0.1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Users",
+      "description": "Info about clients o admin"
+    },
+    {
+      "name": "Products",
+      "description": "All about of items that we can to sell"
+    },
+    {
+      "name": "PurchaseOrder",
+      "description": "register of all order of products"
+    }
+  ],
+  "paths": {
+    "/products/listproducts": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Return all products not deleted",
+        "description": "Present in Json format all products active in the database",
+        "operationId": "listproducts",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Products"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/products/oneproduct/{code}": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Find product by Code",
+        "description": "For valid response try string Code",
+        "operationId": "oneProduct",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "description": "Code of product that needs to be review",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Products"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Product not found with code: ???"
+          },
+          "500": {
+            "description": "Error getProductByCode"
+          }
+        }
+      }
+    },
+    "/products/productsbyname/{name}": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Find products that containt the word pass in its name",
+        "description": "For valid response for a correct string",
+        "operationId": "productByName",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "word that need to look for in the name of the products",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Products"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Product not found with name: ???"
+          },
+          "500": {
+            "description": "Error getProductsByname"
+          }
+        }
+      }
+    },
+    "/products/filter": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Find products that containt the characteristics pass",
+        "description": "For valid response for a correct characteristics",
+        "operationId": "productByCharacteristics",
+        "parameters": [
+          {
+            "name": "characteristics",
+            "in": "query",
+            "description": "characteristics that need to look for in the characteristics of the products",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "origin": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "flavor": {
+                  "type": "string"
+                },
+                "properties": {
+                  "type": "string"
+                },
+                "caffeineContent": {
+                  "type": "string"
+                },
+                "allergens": {
+                  "type": "string"
+                },
+                "organicCertification": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Products"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Debe proporcionar al menos una característica."
+          },
+          "404": {
+            "description": "No se encontraron productos con esas características."
+          },
+          "500": {
+            "description": "Error getProductsByCharacteristics:"
+          }
+        }
+      }
+    },
+    "/products/createProduct": {
+      "post": {
+        "tags": ["Products"],
+        "summary": "Create a new product",
+        "description": "Place a new product in the store",
+        "operationId": "createNewProduct",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "image": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "characteristics": {
+                    "type": "object",
+                    "properties": {
+                      "origin": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      },
+                      "flavor": {
+                        "type": "string"
+                      },
+                      "properties": {
+                        "type": "string"
+                      },
+                      "caffeineContent": {
+                        "type": "string"
+                      },
+                      "allergens": {
+                        "type": "string"
+                      },
+                      "organicCertification": {
+                        "type": "boolean"
+                      }
+                    }
+                  },
+                  "ingredients": {
+                    "type": "string"
+                  },
+                  "presentations": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "size": {
+                          "type": "string"
+                        },
+                        "price": {
+                          "type": "number",
+                          "format": "float"
+                        },
+                        "stock": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  },
+                  "preparationInstructions": {
+                    "type": "object",
+                    "properties": {
+                      "recommendedPortion": {
+                        "type": "string"
+                      },
+                      "waterTemperature": {
+                        "type": "string"
+                      },
+                      "infusionTime": {
+                        "type": "string"
+                      },
+                      "aditionalInfo": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "encoding": {
+                  "image": {
+                    "contentType": "image/*"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Products"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Errors in the validation of the data with zod"
+          },
+          "500": {
+            "description": "Error createProduct:"
+          }
+        },
+        "security": [
+          {
+            "user_auth_Sales": ["token Beaner"]
+          }
+        ]
+      }
+    },
+    "/products/updateProduct": {
+      "patch": {
+        "tags": ["Products"],
+        "summary": "Update an existing product",
+        "description": "Update an existing product by Code",
+        "operationId": "updateProductoData",
+        "requestBody": {
+          "description": "Update an existent product in the store",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "image": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "characteristics": {
+                    "type": "object",
+                    "properties": {
+                      "origin": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      },
+                      "flavor": {
+                        "type": "string"
+                      },
+                      "properties": {
+                        "type": "string"
+                      },
+                      "caffeineContent": {
+                        "type": "string"
+                      },
+                      "allergens": {
+                        "type": "string"
+                      },
+                      "organicCertification": {
+                        "type": "boolean"
+                      }
+                    }
+                  },
+                  "ingredients": {
+                    "type": "string"
+                  },
+                  "presentations": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "size": {
+                          "type": "string"
+                        },
+                        "price": {
+                          "type": "number",
+                          "format": "float"
+                        },
+                        "stock": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  },
+                  "preparationInstructions": {
+                    "type": "object",
+                    "properties": {
+                      "recommendedPortion": {
+                        "type": "string"
+                      },
+                      "waterTemperature": {
+                        "type": "string"
+                      },
+                      "infusionTime": {
+                        "type": "string"
+                      },
+                      "aditionalInfo": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "encoding": {
+                  "image": {
+                    "contentType": "image/*"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Product with code: ${product.code} updated"
+          },
+          "404": {
+            "description": "Product not found with code:"
+          },
+          "500": {
+            "description": "Error updateProduct:"
+          }
+        },
+        "security": [
+          {
+            "user_auth_Sales": ["token Beaner"]
+          }
+        ]
+      }
+    },
+    "/products/deleteProduct/{code}": {
+      "delete": {
+        "tags": ["Products"],
+        "summary": "Delete product by Code",
+        "description": "For valid response try code with value only string. nonstring will generate API errors",
+        "operationId": "deleteProductByCode",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "description": "Code of the product that needs to be deleted",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product Delete"
+          },
+          "404": {
+            "description": "Product not found with code: {code}"
+          },
+          "500": {
+            "description": "Error destroyProduct:"
+          }
+        },
+        "security": [
+          {
+            "user_auth_Sales": ["token Beaner"]
+          }
+        ]
+      }
+    },
+    "/api/users/{email}": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Find User by email",
+        "description": "Returns a single user",
+        "operationId": "getUserByEmail",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "description": "Email of user to return",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Error finding user by email:"
+          }
+        }
+      }
+    },
+    "/api/users": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Add a new user to the store",
+        "description": "Add a new User to the store",
+        "operationId": "createUser",
+        "requestBody": {
+          "description": "Create a new user in the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Array with all error of validation data"
+          },
+          "409": {
+            "description": "The user already exists"
+          },
+          "422": {
+            "description": "Passwords do not match"
+          },
+          "500": {
+            "description": "Unexpected error occurred"
+          }
+        }
+      }
+    },
+    "/api/usersupdate/": {
+      "patch": {
+        "tags": ["Users"],
+        "summary": "Update an existing user",
+        "description": "Update an existing user by ID",
+        "operationId": "uodateUser",
+        "requestBody": {
+          "description": "Update an existent user in the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "ok": {
+                    "type": "boolean"
+                  },
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Error updateUser:"
+          }
+        },
+        "security": [
+          {
+            "user_auth": ["token Beaner"]
+          }
+        ]
+      }
+    },
+    "/api/usersdelete": {
+      "delete": {
+        "tags": ["Users"],
+        "summary": "Delete product by User ID auth Token",
+        "description": "Search of user Id and delete soft this user of the database",
+        "operationId": "deleteUserByID",
+        "responses": {
+          "200": {
+            "description": "User with email: ${user.email} deleted"
+          },
+          "500": {
+            "description": "Error al obtener el usuario: or Error deleting user"
+          }
+        },
+        "security": [
+          {
+            "user_auth": ["token Beaner"]
+          }
+        ]
+      }
+    },
+    "/api/token": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "login a existing user  to the store",
+        "description": "login a existing User to the store",
+        "operationId": "login",
+        "requestBody": {
+          "description": "login a existing user in the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "john@email.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password",
+                    "example": "Alto1542*"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Email and password are required"
+          },
+          "404": {
+            "description": "User not found or deleted"
+          },
+          "401": {
+            "description": "Passwords do not match"
+          },
+          "500": {
+            "description": "Unexpected error occurred"
+          }
+        }
+      }
+    },
+    "/purchaseOrder/listPurchase": {
+      "get": {
+        "tags": ["PurchaseOrder"],
+        "summary": "Return all Purchase Orders not deleted",
+        "description": "Present in Json format all purchase order active in the database",
+        "operationId": "listPurchase",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PurchaseOrder"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/purchaseOrder/createorder": {
+      "post": {
+        "tags": ["PurchaseOrder"],
+        "summary": "Place an order for a store",
+        "description": "Place a new order in the store",
+        "operationId": "createNewPurchaseOrder",
+        "requestBody": {
+          "description": "OrderNumber is generated by backend in automent form ",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PurchaseOrder"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "":{
+                      "$ref": "#/components/schemas/PurchaseOrder"
+                    }
+                    
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Errors in the validation of the data with zod"
+          },
+          "500": {
+            "description": "Error service"
+          }
+        }
+      }
+    },
+    "purchaseOrder/updatestatus": {
+      "patch": {
+        "tags": ["PurchaseOrder"],
+        "summary": "Update status an order for a store",
+        "description": "Update status an order in the store, when this order advance in the processes",
+        "operationId": "updateStatus",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type":"object",
+                "properties":{
+                  "orderNumber":{
+                    "type":"integer",
+                    "format":"int64",
+                    "example":100000000000
+                  },
+                  "status":{
+                    "type":"string",
+                    "example":"paid"
+                  }
+
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message":{
+                      "type":"string",
+                      "example":"Purchase Order with number order: ${order.orderNumber} status updated"}
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error getPurchaseOrderByNumber: ${error.message}"
+          },
+          "500": {
+            "description": "Error updateStatusOrder: ${order.orderNumber}"
+          }
+        }
+      }
+    },
+    "/purchaseOrder/deleteorder/{orderNumber}":{
+      "delete": {
+        "tags": ["PurchaseOrder"],
+        "summary": "Delete purchase order by orderNumber",
+        "description": "Delete purchase order by orderNumber Soft",
+        "operationId": "deleteOrderByNumber",
+        "parameters": [
+          {
+            "name": "orderNumber",
+            "in": "path",
+            "description": "order Number of the order that needs to be deleted",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Purchase Order deleted"
+          },
+          "500": {
+            "description": "Error destroyOrder:"
+          }
+        },
+        "security": [
+          {
+            "user_auth_Sales": ["token Beaner"]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Products": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "ADB145D"
+          },
+          "name": {
+            "type": "string",
+            "example": "Infusion de te verde"
+          },
+          "description": {
+            "type": "string",
+            "example": "Te traido de la india mezclado con variades del mismo"
+          },
+          "image": {
+            "type": "string",
+            "description": "url of the image in the bucket",
+            "example": "https://xdcrhbhtzfatlmeoejjo.supabase.co/storage/v1/object/public/imagens/imagen/1739055989514_Rectangle_49.png"
+          },
+          "characteristics": {
+            "type": "object",
+            "properties": {
+              "origin": {
+                "type": "string",
+                "example": "India"
+              },
+              "type": {
+                "type": "string",
+                "example": "Te verde"
+              },
+              "flavor": {
+                "type": "string",
+                "example": "Picante"
+              },
+              "properties": {
+                "type": "string",
+                "example": "Digestivo"
+              },
+              "caffeineContent": {
+                "type": "string",
+                "example": "Bajo contenido"
+              },
+              "allergens": {
+                "type": "string",
+                "example": "Sin Gluten"
+              },
+              "organicCertification": {
+                "type": "boolean",
+                "example": true
+              }
+            }
+          },
+          "ingredients": {
+            "type": "string",
+            "example": "Te verde, jengibre"
+          },
+          "presentations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "size": {
+                  "type": "string",
+                  "example": "Bolsa 50gr"
+                },
+                "price": {
+                  "type": "number",
+                  "format": "float",
+                  "example": 15.23
+                },
+                "stock": {
+                  "type": "integer",
+                  "example": 125
+                }
+              }
+            }
+          },
+          "preparationInstructions": {
+            "type": "object",
+            "properties": {
+              "recommendedPortion": {
+                "type": "string",
+                "example": "30 gr"
+              },
+              "waterTemperature": {
+                "type": "string",
+                "example": "30 °C"
+              },
+              "infusionTime": {
+                "type": "string",
+                "example": "3 - 10 min"
+              },
+              "aditionalInfo": {
+                "type": "string",
+                "example": "Excelente Sabor"
+              }
+            }
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "example": "John"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "James"
+          },
+          "email": {
+            "type": "string",
+            "example": "john@email.com"
+          },
+          "address": {
+            "type": "string",
+            "example": "cl 20 50 - 45"
+          },
+          "country": {
+            "type": "string",
+            "example": "Colombia"
+          },
+          "city": {
+            "type": "string",
+            "example": "Bogota"
+          },
+          "postCode": {
+            "type": "string",
+            "example": "12345"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "example": "Alto1542*"
+          },
+          "role": {
+            "type": "string",
+            "description": "rol of the user",
+            "example": "client",
+            "enum": ["client", "salesforce", "guest"]
+          },
+          "registered": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PurchaseOrder": {
+        "type": "object",
+        "properties": {
+          "orderNumber": {
+            "type": "integer",
+            "format": "int64",
+            "example": 100000000000
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "idUser": {
+                "type": "string",
+                "description": "Is a Type.ObjectId of mongoDB, can be null",
+                "example": "67a6a60a63070bfe2a88b8a9"
+              },
+              "firstName": {
+                "type": "string",
+                "example": "James"
+              },
+              "lastName": {
+                "type": "string",
+                "example": "Perez"
+              },
+              "email": {
+                "type": "string",
+                "example": "john@email.com"
+              },
+              "address": {
+                "type": "string",
+                "example": "cl 20 50 - 45"
+              },
+              "city": {
+                "type": "string",
+                "example": "Bogota"
+              },
+              "country": {
+                "type": "string",
+                "example": "Colombia"
+              },
+              "postCode": {
+                "type": "string",
+                "example": "12345"
+              }
+            }
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "product": {
+                  "type": "string",
+                  "description": "Is a Type.ObjectId of mongoDB, can not be null",
+                  "example": "67a6a60a63070bfe2a88b8a9"
+                },
+                "quantity": {
+                  "type": "integer",
+                  "format": "int32",
+                  "example": 10
+                }
+              }
+            }
+          },
+          "sameAddress": {
+            "type": "boolean",
+            "example": true
+          },
+          "billingAddress": {
+            "type": "object",
+            "properties": {
+              "address": {
+                "type": "string",
+                "example": "cl 20 50 - 45"
+              },
+              "city": {
+                "type": "string",
+                "example": "Bogota"
+              },
+              "country": {
+                "type": "string",
+                "example": "Colombia"
+              },
+              "postCode": {
+                "type": "string",
+                "example": "12345"
+              }
+            }
+          },
+          "cost": {
+            "type": "object",
+            "properties": {
+              "subTotal": {
+                "type": "number",
+                "format": "float",
+                "example": 15.23
+              },
+              "delivery": {
+                "type": "number",
+                "format": "float",
+                "example": 1.5
+              },
+              "total": {
+                "type": "number",
+                "format": "float",
+                "example": 16.73
+              }
+            }
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the order",
+            "example": "pending",
+            "enum": ["pending", "paid", "shipped", "delivered"]
+          },
+          "paymentInfo": {
+            "type": "object",
+            "properties": {
+              "paymentMethod": {
+                "type": "string",
+                "example": "credit card"
+              },
+              "paymentStatus": {
+                "type": "string",
+                "example": "accept"
+              },
+              "paymentDate": {
+                "type": "string",
+                "format": "date-time",
+                "example": "2025-02-08T00:32:10.512+00:00"
+              },
+              "paymentMethodNumber": {
+                "type": "integer",
+                "format": "int64",
+                "example": "54178956478964"
+              }
+            }
+          },
+          "deliveryTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-02-08T00:32:10.512+00:00"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "user_auth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "user_auth_Sales": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

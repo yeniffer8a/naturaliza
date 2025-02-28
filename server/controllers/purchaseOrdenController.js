@@ -69,13 +69,11 @@ export async function createNewPurchaseOrder(req, res) {
     return res.status(201).json({ ok: true, newPurchaseOrder });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      console.log(`Problem: ${error}`);
       return res.status(400).json({
         ok: false,
         message: error.errors.map((err) => err.message).join(","),
       });
     }
-    console.log(error);
     return res.status(500).json({ ok: false, message: error.message });
   }
 }

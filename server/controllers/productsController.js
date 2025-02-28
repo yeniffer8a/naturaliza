@@ -167,9 +167,6 @@ export async function updateProductData(req, res) {
     }
 
     const updatedProduct = await updateProduct(product, productData, image);
-    if (typeof updatedProduct === "string") {
-      return res.status(400).json({ ok: false, message: updatedProduct });
-    }
     return res.status(200).json({ ok: true, updatedProduct });
   } catch (error) {
     return res.status(500).json({ ok: false, message: error.message });
