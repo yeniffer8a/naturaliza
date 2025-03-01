@@ -4,7 +4,8 @@ import swaggerUi from "swagger-ui-express";
 import connectDB from "./config/dB.js";
 import apiRouter from "./routes/apiRouter.js";
 import cors from "cors";
-import swaggerSpec from "./swagger.js";
+import bodyParser from "body-parser";
+//import swaggerSpec from "./swagger.js";
 
 import swagger from './swagger.json' with { type: "json" };
 
@@ -12,6 +13,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
+app.use(bodyParser.json());
 connectDB();
 
 app.use("", apiRouter);
