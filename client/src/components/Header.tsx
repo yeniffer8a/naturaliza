@@ -11,7 +11,6 @@ import { logout } from "../slices/authSlice";
 import toast from "react-hot-toast";
 
 export function Header() {
-  //const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const { items } = useCart();
@@ -23,9 +22,6 @@ export function Header() {
     dispatch(logout());
     toast.success("Sesión cerrada");
   };
-  // if (!token) {
-  //   navigate("login");
-  // }
 
   return (
     <header className="bg-background shadow-sm text-outline relative">

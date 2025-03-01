@@ -1,5 +1,7 @@
 import { Minus, Plus } from "lucide-react";
 import { useCart } from "../contexts/CartContext";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
 
 export function CartPage() {
   const { items, updateQuantity, removeItem, subtotal, total, deliveryFee } =
@@ -13,6 +15,8 @@ export function CartPage() {
       </div>
     );
   }
+
+  const token = useSelector((state: RootState) => state.auth.token);
 
   return (
     <div className="container-section py-12">
@@ -97,10 +101,12 @@ export function CartPage() {
                 <span>${total.toFixed(2)}</span>
               </div>
             </div>
-
-            <button className="w-full bg-primary text-white rounded-md px-6 py-3 mt-6 font-medium hover:opacity-90">
+            <a
+              href={token ? "/checkout" : "/login"}
+              className="w-full bg-primary text-white rounded-md px-6 py-3 mt-6 font-medium hover:opacity-90 block text-center"
+            >
               PAGAR
-            </button>
+            </a>
           </div>
         </div>
       </div>
