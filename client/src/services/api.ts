@@ -1,25 +1,3 @@
-// import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-// import type { LoginRequest, LoginResponse } from "../types/auth";
-
-// export const api = createApi({
-//   reducerPath: "api",
-//   baseQuery: fetchBaseQuery({
-//     baseUrl: import.meta.env.VITE_API_URL,
-//   }),
-//   endpoints: (builder) => ({
-//     login: builder.mutation<LoginResponse, LoginRequest>({
-//       query: (credentials) => ({
-//         url: "/api/token",
-//         method: "POST",
-//         body: credentials,
-//       }),
-//     }),
-//   }),
-// });
-
-// export const { useLoginMutation } = api;
-
 import {
   createApi,
   fetchBaseQuery,
@@ -32,6 +10,7 @@ import type {
 } from "../types/auth";
 import type { Product, ProductFilters } from "../types/product";
 import toast from "react-hot-toast";
+import { RootState } from "../store/store";
 
 // interface ApiResponse<T> {
 //   ok: boolean;
@@ -57,7 +36,8 @@ export const api = createApi({
     baseUrl: import.meta.env.VITE_API_URL,
     prepareHeaders: (headers, { getState }) => {
       // Añadir el token de autenticación si existe
-      const token = (getState() as any).auth?.token;
+      const state = getState() as RootState;
+      const token = state.auth?.token;
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }

@@ -4,6 +4,8 @@ import { z } from "zod";
 import { useState } from "react";
 import { RegisterFormData } from "../types/auth";
 import { useRegisterMutation } from "../services/api";
+import { useNavigate } from "react-router-dom";
+
 const registerSchema = z
   .object({
     firstName: z
@@ -37,6 +39,7 @@ const registerSchema = z
   });
 
 export function Register() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<RegisterFormData>({
     firstName: "",
     lastName: "",
@@ -66,6 +69,8 @@ export function Register() {
       const result = await register(formData).unwrap();
 
       toast.success(result.message || "Usuario registrado exitosamente");
+      navigate("/login");
+
       // Clear form
       setFormData({
         firstName: "",
