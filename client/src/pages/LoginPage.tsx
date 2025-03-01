@@ -4,7 +4,9 @@ import { ButtonLogin } from "../components/ButtonLogin.tsx";
 import type { LoginFormData } from "../types/auth";
 import { Loader2 } from "lucide-react";
 import { toast, Toaster } from "react-hot-toast";
-import { useLoginMutation } from "../services/authApi";
+import { useLoginMutation } from "../services/api";
+import { useDispatch } from "react-redux";
+import { setToken } from "../slices/authSlice.ts";
 
 export function Login() {
   const navigate = useNavigate();
@@ -15,6 +17,7 @@ export function Login() {
   });
   // const [isLoading, setIsLoading] = useState(false);
   const [login, { isLoading }] = useLoginMutation();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -22,10 +25,11 @@ export function Login() {
     try {
       const { email, password } = formData;
 
-      const response = await login({ email, password }).unwrap(); // Usar el hook de Redux para hacer login
-
-      // Guardar token y datos en sessionStorage o localStorage
+      const response = await login({ email, password }).unwrap();
       sessionStorage.setItem("token", response.token);
+      dispatch(setToken(response.token));
+      console.log("Token guardado:", response.token);
+      console.log("Token en sessionStorage:", sessionStorage.getItem("token"));
 
       if (formData.remember) {
         localStorage.setItem("userEmail", formData.email);
@@ -109,7 +113,7 @@ export function Login() {
                 "INICIAR SESIÓN"
               )}
             </ButtonLogin>
-                        <div className="text-center">
+            <div className="text-center">
               <a
                 href="/register"
                 className="text-sm text-gray  hover:underline"

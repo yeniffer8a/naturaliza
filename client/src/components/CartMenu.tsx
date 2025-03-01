@@ -57,7 +57,7 @@ export function CartMenu({ onClose }: CartMenuProps) {
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() =>
-                          updateQuantity(item.id, item.quantity - 1)
+                          updateQuantity(item.id, item.size, item.quantity - 1)
                         }
                         className="p-1 hover:bg-gray-100 rounded"
                       >
@@ -66,7 +66,7 @@ export function CartMenu({ onClose }: CartMenuProps) {
                       <span className="font-medium">{item.quantity}</span>
                       <button
                         onClick={() =>
-                          updateQuantity(item.id, item.quantity + 1)
+                          updateQuantity(item.id, item.size, item.quantity + 1)
                         }
                         className="p-1 hover:bg-gray-100 rounded"
                       >

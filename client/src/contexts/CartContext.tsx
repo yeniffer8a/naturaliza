@@ -13,7 +13,7 @@ interface CartContextType {
   items: CartItem[];
   addItem: (item: CartItem) => void;
   removeItem: (id: string, size: string) => void;
-  updateQuantity: (id: string, quantity: number) => void;
+  updateQuantity: (id: string, size: string, quantity: number) => void;
   clearCart: () => void;
   subtotal: number;
   total: number;
@@ -67,12 +67,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     );
   };
 
-  const updateQuantity = (id: string, quantity: number) => {
+  const updateQuantity = (id: string, size: string, quantity: number) => {
     setItems(
       (items) =>
         items
           .map((item) => {
-            if (item.id === id) {
+            if (item.id === id && item.size === size) {
               if (quantity <= 0) {
                 return null;
               }

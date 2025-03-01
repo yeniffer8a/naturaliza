@@ -5,13 +5,27 @@ import logo from "../assets/logo.jpg";
 import searchIcon from "../assets/search.jpg";
 import { useCart } from "../contexts/CartContext";
 import { CartMenu } from "./CartMenu";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store/store";
+import { logout } from "../slices/authSlice";
+import toast from "react-hot-toast";
 
 export function Header() {
+  //const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const { items } = useCart();
-
+  const dispatch = useDispatch();
+  const token = useSelector((state: RootState) => state.auth.token);
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    toast.success("Sesión cerrada");
+  };
+  // if (!token) {
+  //   navigate("login");
+  // }
 
   return (
     <header className="bg-background shadow-sm text-outline relative">
@@ -64,11 +78,22 @@ export function Header() {
               className="h-6 cursor-pointer"
             />
             <Link
-              to="/login"
+              to={token ? "/" : "/login"}
               className="text-lg hover:text-secondary transition-colors"
             >
-              <UserCheck className="h-6 w-6" />
+              {token ? (
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center space-x-2"
+                >
+                  <UserCheck className="h-6 w-6" />
+                  <span>Cerrar sesión</span>
+                </button>
+              ) : (
+                <UserX className="h-6 w-6" />
+              )}
             </Link>
+
             <button
               className="relative"
               onClick={() => setIsCartOpen(!isCartOpen)}
