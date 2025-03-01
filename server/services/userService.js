@@ -2,7 +2,10 @@ import { User } from "../models/User.js";
 
 async function getUserBy(userId) {
   try {
+    console.log("GetUserID")
     const user = await User.findOne({ _id: userId, deletedAt: { $eq: null } });
+    console.log(1245)
+    console.log(user)
     return user;
   } catch (error) {
     throw new Error("Error al obtener el usuario: ", error);
@@ -11,12 +14,10 @@ async function getUserBy(userId) {
 
 async function findUserByEmail(email) {
   try {
-    console.log("findUserByEmail:--->", email);
     const user = await User.findOne({
       email: email.toLowerCase(),
       deletedAt: { $eq: null },
     });
-    console.log("User-->", user);
     return user;
   } catch (error) {
     throw new Error(`Error finding user by email: ${error.message}`);
@@ -33,4 +34,33 @@ async function createNewUser(userData) {
   }
 }
 
-export { getUserBy, findUserByEmail, createNewUser };
+async function updateNewUser(user, userData) {
+  try {
+    const { firstName, lastName, email, address, country, city, postCode } = userData;
+    user.firstName = firstName;
+    user.lastName = lastName;
+    user.email = email.toLowerCase();
+    user.address = address;
+    user.country = country;
+    user.city = city;
+    user.postCode = postCode;
+    await user.save();
+    return {message:`User updated:`};
+  } catch (error) {
+    throw new Error(`Error updating user: ${error.message}`);
+  }
+}
+
+async function deleteUser(user) {
+  try {
+    user.deletedAt = new Date();
+    await user.save();
+    return { message: `User with email: ${user.email} deleted` };
+  } catch (error) {
+    throw new Error(`Error deleting user: ${error.message}`);
+  }
+}
+
+
+
+export { getUserBy, findUserByEmail, createNewUser, updateNewUser, deleteUser };
