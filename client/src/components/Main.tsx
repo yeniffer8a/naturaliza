@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Button } from "./Button";
-import { Product, Post } from "../types/api";
+import { Product, Post } from "../types/product.ts";
 import { Link } from "react-router-dom";
 export function Main() {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [products, setProducts] = useState<Product[]>([]);
+  const [posts] = useState<Post[]>([]);
+  const [products] = useState<Product[]>([]);
   return (
     <main className="bg-background text-primary px-1 container-section ">
       {/*Hero Section */}
@@ -82,7 +82,7 @@ export function Main() {
                     />
                   </div>
                   <h3 className="font-bold mb-2">{product.name}</h3>
-                  <p className="text-gray-600">${product.price}</p>
+                  <p className="text-gray-600">${product.presentations[0].price}</p>
                 </Link>
               ))}
             </div>
