@@ -10,12 +10,12 @@ export function Main() {
     <main className="bg-background text-primary px-1 container-section ">
       {/*Hero Section */}
       {/* <div className="flex  flex-col items-center gap-1 "> */}
-      <section className="h-[80vh] flex flex-col md:flex-row items-center justify-around gap-2">
+      <section className="h-[80vh] flex flex-col md:flex-row items-center justify-around gap-2 my-8">
         <div className="lg:w-1/2 md:w-full h-full">
           <img
             src="https://res.cloudinary.com/daubm6r3j/image/upload/v1741437345/Landing_Main_Image_2_t9u2av.jpg"
             alt="Landing Main Imagen"
-            className=""
+            className="md:w-full h-full object-cover "
           ></img>
         </div>
 
@@ -139,7 +139,7 @@ export function Main() {
 
       {/*Wholesale Section */}
       <section className="container-section ">
-        <div className="py-16 h-[80vh] flex  items-center justify-between gap-2">
+        <div className="py-16 h-[80vh] flex  items-center justify-between gap-2 my-8">
           <div className="md:w-1/2 py-14 h-full p-padding ">
             <h2 className="text-3xl font-bold mb-6 ">PARA MAYORISTAS</h2>
             <p className="max-w-2xl mx-auto mb-8 ">
@@ -160,11 +160,11 @@ export function Main() {
             </Button>
           </div>
 
-          <div className="lg:w-1/2 md:w-full h-full">
+          <div className="lg:w-1/2 md:w-full h-full my-4 object-cover">
             <img
               src="https://res.cloudinary.com/daubm6r3j/image/upload/v1741437878/Landing_Main_Image_3_lt9pdo.jpg"
               alt="Aromatic drink"
-              className=""
+              className="object-cover"
             ></img>
           </div>
         </div>
