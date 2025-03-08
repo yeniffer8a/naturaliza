@@ -29,7 +29,7 @@ export function SizeSelector({
         >
           <div className="w-12 h-12 mb-2  flex items-center justify-center">
             <img
-              src={`/icons/size-${option.size}.svg`}
+              src={`/images/sizes/${option.size}.jpg`}
               alt={option.label}
               className="w-full h-full object-contain"
             />

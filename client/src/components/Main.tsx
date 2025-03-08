@@ -1,17 +1,23 @@
 import { useState } from "react";
 import { Button } from "./Button";
-import { Product, Post } from "../types/api";
+import { Post } from "../types/product";
 import { Link } from "react-router-dom";
+import { useGetProductsQuery } from "../services/api";
 export function Main() {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [products, setProducts] = useState<Product[]>([]);
+  const [posts] = useState<Post[]>([]);
+
+  const { data: products, isLoading, isError } = useGetProductsQuery();
   return (
     <main className="bg-background text-primary px-1 container-section ">
       {/*Hero Section */}
       {/* <div className="flex  flex-col items-center gap-1 "> */}
       <section className="h-[80vh] flex flex-col md:flex-row items-center justify-around gap-2">
         <div className="lg:w-1/2 md:w-full h-full">
-          <img src="../assets/LandingMainImage.jpg" className=""></img>
+          <img
+            src="https://res.cloudinary.com/daubm6r3j/image/upload/v1741437345/Landing_Main_Image_2_t9u2av.jpg"
+            alt="Landing Main Imagen"
+            className=""
+          ></img>
         </div>
 
         <div className="lg:w-1/2 md:w-full h-full">
@@ -82,7 +88,9 @@ export function Main() {
                     />
                   </div>
                   <h3 className="font-bold mb-2">{product.name}</h3>
-                  <p className="text-gray-600">${product.price}</p>
+                  <p className="text-gray-600">
+                    ${product.presentations[0].price}
+                  </p>
                 </Link>
               ))}
             </div>
@@ -154,7 +162,11 @@ export function Main() {
           </div>
 
           <div className="lg:w-1/2 md:w-full h-full">
-            <img src="../assets/LandingMainImage.jpg" className=""></img>
+            <img
+              src="https://res.cloudinary.com/daubm6r3j/image/upload/v1741437878/Landing_Main_Image_3_lt9pdo.jpg"
+              alt="Aromatic drink"
+              className=""
+            ></img>
           </div>
         </div>
       </section>

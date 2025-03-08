@@ -75,9 +75,9 @@ export function ProductsPage() {
     }));
   };
 
-
   const sortedProducts =
-    [...(products || [])].sort((a, b) => {
+    [...(products || [])]
+      .sort((a, b) => {
         switch (sortBy) {
           case "price-asc":
             return a.presentations[0].price - b.presentations[0].price;
@@ -98,7 +98,7 @@ export function ProductsPage() {
       {/* Hero Banner */}
       <div className="relative h-[300px] overflow-hidden">
         <img
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Productos.jpg-Rho3I1vw9TlC88NRu4ZgcmfM0tEg7d.jpeg"
+          src="https://res.cloudinary.com/daubm6r3j/image/upload/v1741438058/Rectangle_2_1_ilrnhb.jpg"
           alt="Tea Collection"
           className="w-full h-full object-cover"
         />
@@ -248,10 +248,7 @@ export function ProductsPage() {
               </button>
             </label>
           </div>
-
         </div>
-
-
 
         {/* Product grid */}
         <div className="">
@@ -269,7 +266,6 @@ export function ProductsPage() {
                 </option>
               ))}
             </select>
-
           </div>
           {isLoading ? (
             <div>Cargando productos...</div>
@@ -281,7 +277,6 @@ export function ProductsPage() {
             </div>
           )}
         </div>
-
       </div>
     </div>
   );
