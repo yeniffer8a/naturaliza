@@ -11,7 +11,7 @@ export function Main() {
       {/*Hero Section */}
       {/* <div className="flex  flex-col items-center gap-1 "> */}
       <section className="h-[80vh] flex flex-col md:flex-row items-center justify-around gap-2 my-8">
-        <div className="lg:w-1/2 md:w-full h-full">
+        <div className="lg:w-1/2 md:w-full h-full object-cover">
           <img
             src="https://res.cloudinary.com/daubm6r3j/image/upload/v1741437345/Landing_Main_Image_2_t9u2av.jpg"
             alt="Landing Main Imagen"
@@ -164,7 +164,7 @@ export function Main() {
             <img
               src="https://res.cloudinary.com/daubm6r3j/image/upload/v1741437878/Landing_Main_Image_3_lt9pdo.jpg"
               alt="Aromatic drink"
-              className="object-cover"
+              className="md:w-full h-full object-cover"
             ></img>
           </div>
         </div>
