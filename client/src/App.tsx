@@ -16,8 +16,7 @@ function App() {
   return (
     <PayPalScriptProvider
       options={{
-        clientId:
-          "ATAsrvKFSxhJpcUoEzLuEhV7IIUpV0WfvrW9Yy6R9X-3kRf1gBZPYneaEMIiWOfFNjVZaXQMAsoyDqbH",
+        clientId: import.meta.env.VITE_PAYPAL_CLIENT_ID,
       }}
     >
       <Router>
