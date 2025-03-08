@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { Button } from "./Button";
-import { Post } from "../types/product";
+import { Product, Post } from "../types/product.ts";
 import { Link } from "react-router-dom";
-import { useGetProductsQuery } from "../services/api";
+
 export function Main() {
   const [posts] = useState<Post[]>([]);
-
-  const { data: products, isLoading, isError } = useGetProductsQuery();
+  const [products] = useState<Product[]>([]);
   return (
     <main className="bg-background text-primary px-1 container-section ">
       {/*Hero Section */}
