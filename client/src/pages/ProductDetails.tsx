@@ -69,11 +69,11 @@ export function ProductDetail() {
   ];
 
   return (
-    <div className="bg-onPrimary">
-      <div className="container-section py-8">
-        <Breadcrumb items={breadcrumbItems} />
+    <div className="bg-onPrimary py-8 px-8">
+      <Breadcrumb items={breadcrumbItems} />
+      <div className=" flex  items-center justify-between gap-10 py-8 px-8 h-auto">
         {/* Product Image */}
-        <div>
+        <div className="w-full">
           <img
             src={product.image || "/placeholder.svg"}
             alt={product.name}
@@ -81,17 +81,17 @@ export function ProductDetail() {
           />
         </div>
         {/* Product Details */}
-        <div className="space-y-6">
-          <h1 className="text-3xl font-bold">{product.name}</h1>
-          <p className="text-gray-600">{product.description}</p>
-
-          <ProductCharacteristics
-            origin={product.characteristics.origin}
-            isOrganic={product.characteristics.organicCertification}
-            isVegan={true}
-          />
-
-          <div className="text-3xl font-bold">
+        <div className="w-full   pb-10 mt-0">
+          <div className=" pb-16">
+            <h1 className="text-3xl font-bold">{product.name}</h1>
+            <p className="text-gray-600">{product.description}</p>
+            <ProductCharacteristics
+              origin={product.characteristics.origin}
+              isOrganic={product.characteristics.organicCertification}
+              isVegan={true}
+            />
+          </div>
+          <div className="text-3xl font-bold pb-16">
             ${product.presentations[0].price.toFixed(2)}
           </div>
 
@@ -139,11 +139,9 @@ export function ProductDetail() {
 
       <div className="mt-16 grid md:grid-cols-2 gap-12">
         <PreparationInstructions
-
           portion={product?.preparationInstructions.recommendedPortion}
           temperature={product?.preparationInstructions.waterTemperature}
           time={product?.preparationInstructions.infusionTime}
-
           intensificationNote="Se intensifica después de 3 minutos"
         />
 

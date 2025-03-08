@@ -30,7 +30,7 @@
   }
 
   .container-section {
-    @apply lg:max-w-7xl  md:max-w-2xl mx-auto px-4 sm:px-1 md:px-8 my-9;
+    @apply lg:max-w-7xl  md:max-w-2xl mx-auto px-4 sm:px-1 md:px-8;
   }
 }
 .input-field {

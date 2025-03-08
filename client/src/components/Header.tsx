@@ -26,9 +26,9 @@ export function Header() {
   return (
     <header className="bg-background shadow-sm text-outline relative">
       <nav className="container-section">
-        <div className="flex items-center justify-between py-4">
+        <div className="flex items-center md:justify-between sm:justify-around py-4 gap-2">
           {/* Logo & Brand Name */}
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2">
             <Link to="/">
               <img
                 src={logo || "/placeholder.svg"}
@@ -42,7 +42,7 @@ export function Header() {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8 text-lg">
+          <div className="hidden md:flex items-center space-x-8 md:text-lg sm:text-sm">
             <Link
               to="/products"
               className="hover:text-secondary transition-colors"
@@ -136,6 +136,42 @@ export function Header() {
             >
               Contacto
             </Link>
+
+            {/* Right Icons in Mobile */}
+            <div className="flex justify-end gap-4 pt-4 border-t border-gray-300 mx-3">
+              <img
+                src={searchIcon || "/placeholder.svg"}
+                alt="Search"
+                className="h-6 cursor-pointer self-start"
+              />
+              <Link
+                to={token ? "/" : "/login"}
+                className="text-lg hover:text-secondary transition-colors flex items-center space-x-2"
+              >
+                {token ? (
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center space-x-2"
+                  >
+                    <UserCheck className="h-6 w-6" />
+                    <span>Cerrar sesión</span>
+                  </button>
+                ) : (
+                  <UserX className="h-6 w-6" />
+                )}
+              </Link>
+              <button
+                className="relative self-start"
+                onClick={() => setIsCartOpen(!isCartOpen)}
+              >
+                <ShoppingBag className="h-6 w-6" />
+                {totalItems > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                    {totalItems}
+                  </span>
+                )}
+              </button>
+            </div>
           </div>
         )}
       </nav>

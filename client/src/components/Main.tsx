@@ -1,16 +1,19 @@
 import { useState } from "react";
 import { Button } from "./Button";
-import { Product, Post } from "../types/product.ts";
+import { Post } from "../types/product.ts";
 import { Link } from "react-router-dom";
+import { useGetProductsQuery } from "../services/api.ts";
+import { ProductCard } from "./product/ProductCard.tsx";
 
 export function Main() {
   const [posts] = useState<Post[]>([]);
-  const [products] = useState<Product[]>([]);
+  // const [products] = useState<Product[]>([]);
+  const { data: products, isLoading, error } = useGetProductsQuery();
   return (
     <main className="bg-background text-primary px-1 container-section ">
       {/*Hero Section */}
       {/* <div className="flex  flex-col items-center gap-1 "> */}
-      <section className="h-[80vh] flex flex-col md:flex-row items-center justify-around gap-2 my-8">
+      <section className=" flex flex-col md:flex-row items-center justify-around gap-2 my-16">
         <div className="lg:w-1/2 md:w-full h-full object-cover">
           <img
             src="https://res.cloudinary.com/daubm6r3j/image/upload/v1741437345/Landing_Main_Image_2_t9u2av.jpg"
@@ -19,8 +22,8 @@ export function Main() {
           ></img>
         </div>
 
-        <div className="lg:w-1/2 md:w-full h-full">
-          <div className="flex flex-col items-center">
+        <div className="lg:w-1/2 md:w-full h-full ">
+          <div className="flex flex-col items-center mx-16">
             <h1 className="font-prosto text-2x1 md:text-3xl text-primary mb-6">
               Cada día es único, al igual que nuestro té
             </h1>
@@ -68,34 +71,22 @@ export function Main() {
       <section className="py-16">
         <div className="container-section">
           <h2 className="text-3xl font-bold text-center mb-12">Productos</h2>
-          {products.length > 0 ? (
+          {isLoading && <p className="text-center">Cargando productos...</p>}
+          {error && (
+            <p className="text-center text-red-500">
+              Error al cargar productos
+            </p>
+          )}
+
+          {products && products.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {products.map((product) => (
-                <Link
-                  key={product._id}
-                  to={`/productos/${product._id}`}
-                  className="group"
-                >
-                  <div className="relative aspect-square mb-4">
-                    <img
-                      src={
-                        product.image ||
-                        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Color%20Sheet-iSKzVaKGlkK0UOLq4vJGdqR7TOxZMd.png"
-                      }
-                      alt={product.name}
-                      className="w-full h-full object-cover rounded-lg group-hover:opacity-90 transition-opacity"
-                    />
-                  </div>
-                  <h3 className="font-bold mb-2">{product.name}</h3>
-                  <p className="text-gray-600">
-                    ${product.presentations[0].price}
-                  </p>
-                </Link>
+                <ProductCard key={product._id} product={product} />
               ))}
             </div>
           ) : (
             <p className="text-center">
-              No hay productos destacados disponibles en este momento.
+              No hay productos disponibles en este momento.
             </p>
           )}
         </div>

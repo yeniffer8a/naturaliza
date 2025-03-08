@@ -94,7 +94,7 @@ export function ProductsPage() {
       .slice(0, 9) || [];
 
   return (
-    <div className="bg-background">
+    <div className="bg-background py-8 px-8">
       {/* Hero Banner */}
       <div className="relative h-[300px] overflow-hidden">
         <img
